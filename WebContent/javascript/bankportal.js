@@ -3,6 +3,13 @@ var BankPortal = function () {
 
 
     var server = ServerStub();
+    /* Model for fund transfer */
+    var transfer = {
+        toAccount: ko.observable(),
+        fromAccount: ko.observable(),
+        amount: ko.observable(),
+        description: ko.observable()
+    };
     var member = {
         personal: {
             firstName: ko.mementoObservable().extend({required: true}),

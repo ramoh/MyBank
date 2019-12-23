@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/carousel.css">
+    <link rel="stylesheet" href="css/bankportal.css">
 
     <script type="text/javascript" src="javascript/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="javascript/knockout-3.2.0.js"></script>
@@ -58,13 +59,59 @@
                 <a href="#" data-bind="click: BankPortal.setActiveTab.bind($data,'Transfers')">Transfers</a>
             </li>
         </ul>
-        <div id="transfers" data-bind="visible: BankPortal.isActive('Transfers'">
+        <div id="transfers" data-bind="visible: BankPortal.isActiveTab('Transfers')">
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">Transfer funds</div>
                         <div class="panel-body">
-                            <p>Transfer funds</p>
+                            <div class="row row-centered">
+                                <div class="col-md-8 col-centered">
+                                    <div class="wizard-step"
+                                         data-bind="if : BankPortal.transferWizard.currentStep() == 1">
+                                        <div class="row row-centered">
+                                            <div class="col-md-8 col-centered">
+                                                <div class="form-group">
+
+                                                    <p>First Step</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="wizard-step"
+                                         data-bind="if : BankPortal.transferWizard.currentStep() == 2">
+                                        <p>Second Step</p>
+                                    </div>
+                                    <div class="wizard-step"
+                                         data-bind="if : BankPortal.transferWizard.currentStep() == 3">
+                                        <p>Last Step</p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row row-centered">
+                                <div class="col-md-8 col-centered">
+                                    <button type="button" class="btn btn-default pull-left"
+                                            data-bind="click: BankPortal.transferWizard.back, visible: BankPortal.transferWizard.isFirstStep() == false">
+                                        Back
+                                    </button>
+                                    <button type="button" class="btn btn-primary pull-right"
+                                            data-bind="click: BankPortal.transferWizard.next, visible: BankPortal.transferWizard.isLastStep() == false">
+                                        Next
+                                    </button>
+                                    <button type="button" class="btn btn-success pull-right"
+                                            data-bind="click: BankPortal.transferWizard.done, visible: BankPortal.transferWizard.isLastStep() == true">
+                                        Done
+                                    </button>
+                                    <ul class="wizard-indicators">
+                                        <li data-bind="css: { active: BankPortal.transferWizard.currentStep() == 1 }"></li>
+                                        <li data-bind="css: { active: BankPortal.transferWizard.currentStep() == 2 }"></li>
+                                        <li data-bind="css: { active: BankPortal.transferWizard.currentStep() == 3 }"></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
