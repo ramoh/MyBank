@@ -24,13 +24,21 @@
     <!-- add login form here -->
     <form class="form-login" data-bind="submit : BankPortal.authenticator.login">
         <h2 class="form-login-heading">Please sign in</h2>
-        <label for="inputUserName" class="sr-only">User name</label>
-        <input type="text" id="inputUserName" class="form-control" placeholder="User name"
-               data-bind="value : BankPortal.authenticator.credential.userName">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-               data-bind="value : BankPortal.authenticator.credential.password">
+        <div data-bind="validationOptions : {insertMessages :false},validationElement: BankPortal.authenticator.credential.userName">
+            <label for="inputUserName" class="sr-only">User name</label>
+            <input type="text" id="inputUserName" class="form-control" placeholder="User name"
+                   data-bind="value : BankPortal.authenticator.credential.userName">
+        </div>
+        <div data-bind="validationOptions: {insertMessages: false}, validationElement: BankPortal.authenticator.credential.password">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                   data-bind="value : BankPortal.authenticator.credential.password">
+        </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div class="alert alert-danger" role="alert"
+             data-bind="visible : BankPortal.authenticator.showAuthenticationFailed"><strong>Login failed!</strong>Invalid
+            username or password
+        </div>
     </form>
 </div>
 <div class="container" data-bind="if : BankPortal.authenticator.isAuthenticated">
@@ -56,6 +64,16 @@
                     </li>
                     <li data-bind="css: {active: BankPortal.isActivePage('Contact')}">
                         <a href="#" data-bind="click: BankPortal.setActivePage.bind($data, 'Contact')">Contact</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false"><span data-bind="text: BankPortal.authenticator.loggedInUser"></span>
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-bind="click: BankPortal.authenticator.logout">Logout</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
