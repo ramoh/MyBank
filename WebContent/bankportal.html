@@ -13,12 +13,27 @@
     <script type="text/javascript" src="javascript/knockout.validation.min.js"></script>
     <script type="text/javascript" src="javascript/configureknockout.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="javascript/jwt.js"></script>
     <script type="text/javascript" src="javascript/serverstub.js"></script>
     <script type="text/javascript" src="javascript/wizard.js"></script>
+    <script type="text/javascript" src="javascript/authenticator.js"></script>
     <script type="text/javascript" src="javascript/bankportal.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container" data-bind="ifnot : BankPortal.authenticator.isAuthenticated">
+    <!-- add login form here -->
+    <form class="form-login" data-bind="submit : BankPortal.authenticator.login">
+        <h2 class="form-login-heading">Please sign in</h2>
+        <label for="inputUserName" class="sr-only">User name</label>
+        <input type="text" id="inputUserName" class="form-control" placeholder="User name"
+               data-bind="value : BankPortal.authenticator.credential.userName">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+               data-bind="value : BankPortal.authenticator.credential.password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+</div>
+<div class="container" data-bind="if : BankPortal.authenticator.isAuthenticated">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">

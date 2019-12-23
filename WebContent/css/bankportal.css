@@ -1,3 +1,48 @@
+/* styles for login form */
+.form-login {
+    max-width: 330px;
+    padding: 40px 0px 15px 0px;
+    margin: 0 auto;
+}
+
+.form-login .form-login-heading,
+.form-login .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-login .alert {
+    margin-top: 10px;
+}
+
+.form-login .checkbox {
+    font-weight: normal;
+}
+
+.form-login .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-login .form-control:focus {
+    z-index: 2;
+}
+
+.form-login input[type="text"] {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-login input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 /* styles to center content */
 .row-centered {
     text-align: center;

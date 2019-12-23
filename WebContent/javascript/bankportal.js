@@ -3,6 +3,7 @@ var BankPortal = function () {
 
 
     var server = ServerStub();
+    var authenticator = Authenticator(server);
     /* Model for fund transfer */
     var transfer = {
         toAccount: ko.observable(),
@@ -50,7 +51,7 @@ var BankPortal = function () {
         }
         commitPersonalInformation();
         console.log("Updating personal information on the server :" + ko.toJSON(member.personal));
-        server.updatePersonalInformation(ko.toJS(member.personal));
+        server.updatePersonalInformation(ko.toJS(member.personal),authenticator.getAuthenticationToken());
         console.log("Personal information updated on the server");
         personalInformationEditMode(false);
         showPersonalInformationEditDone(true);
@@ -91,7 +92,7 @@ var BankPortal = function () {
     //retireves data from the server side and sets it to the model
     var retrieveData = function () {
         console.log("Retrieving data from server ....");
-        var data = server.getMemberData();
+        var data = server.getMemberData(authenticator.getAuthenticationToken());
         console.log("Data retrieved from server :" + ko.toJSON(data));
 
         //add accounts to model
@@ -153,13 +154,22 @@ var BankPortal = function () {
         return account === member.selectedAccount();
     };
 
+    //call back for when authentication is successful
+    var postAuthenticationInit = function () {
+
+        if (authenticator.isAuthenticated()) {
+            retrieveData();
+            validationErrors = ko.validation.group(member, {deep: true});
+        }
+    };
+
     /* method to initialize the module*/
     var init = function () {
-
-        retrieveData();
-        validationErrors = ko.validation.group(member, {deep: true});
+        authenticator.setCallBack(postAuthenticationInit);
         //apply binding
         ko.applyBindings(BankPortal);
+        //inti with data if user is already authenticated
+        postAuthenticationInit();
     };
 
 
@@ -170,6 +180,7 @@ var BankPortal = function () {
         showPersonalInformationEditDone: showPersonalInformationEditDone,
         showPersonalInformationEditCancel: showPersonalInformationEditCancel,
         transferWizard: transferWizard,
+        authenticator: authenticator,
         setActivePage: setActivePage,
         isActivePage: isActivePage,
         setActiveTab: setActiveTab,
